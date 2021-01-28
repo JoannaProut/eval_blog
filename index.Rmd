@@ -1,0 +1,23 @@
+---
+title: "Joanna Prout"
+image: "jtp_pic.jpg"
+links:
+  - label: LinkedIn
+    url: "https://linkedin.com/in/joanna-prout-965aaa51/"
+  - label: Twitter
+    url: "https://twitter.com/joieprout"
+  - label: GitHub
+    url: "https://github.com/JoannaProut"
+  - label: Email
+    url: "mailto:jtprout@gmail.com"
+
+site: distill::distill_website
+output:
+  postcards::trestles
+---
+ 
+Joanna was a social worker and clinical psychologist for children and families before falling in love with evaluation.
+
+Now she enjoys figuring out how to measure things that are difficult to pin down, like whether educational and behavioral health interventions are happening the way we thought and having the impact we hoped.
+
+She has been learning R to help clean and manage messy 'real world' data and create visualizations that are easy to understand and engaging for everyone.  

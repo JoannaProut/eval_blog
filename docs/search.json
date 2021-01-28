@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-01-28T16:49:28-05:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Joanna Prout",
+      "author": [],
+      "contents": "\r\nJoanna was a social worker and clinical psychologist for children and families before falling in love with evaluation.\r\nNow she enjoys figuring out how to measure things that are difficult to pin down, like whether educational and behavioral health interventions are happening the way we thought and having the impact we hoped.\r\nShe has been learning R to help clean and manage messy ‘real world’ data and create visualizations that are easy to understand and engaging for everyone.\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-01-28T16:50:44-05:00"
+    }
+  ],
+  "collections": []
+}

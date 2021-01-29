@@ -16,8 +16,30 @@ output:
   postcards::trestles
 ---
  
+## Bio
+ 
 Joanna was a social worker and clinical psychologist for children and families before falling in love with evaluation.
 
 Now she enjoys figuring out how to measure things that are difficult to pin down, like whether educational and behavioral health interventions are happening the way we thought and having the impact we hoped.
 
 She has been learning R to help clean and manage messy 'real world' data and create visualizations that are easy to understand and engaging for everyone.  
+
+## Education
+
+**West Virginia University** | Morgantown, WV
+
+Ph.D. in Clinical Psychology | August 2008 - August 2014
+
+**The University of Pittsburgh** | Pittsburgh, PA
+
+M.S.W. in Direct Clinical Practice | August 2004 - May 2006
+
+**The University of Pittsburgh** | Pittsburgh, PA
+
+B.S. in Psychology and English Writing | August 2000 - May 2004
+
+## Experience
+
+**University of Maryland School of Medicine** | Research Manager | April 2020 - Present
+
+**University of Maryland School of Medicine** | Research Supervisorr | April 2015 - March 2020

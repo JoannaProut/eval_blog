@@ -10,9 +10,10 @@ links:
     url: "https://github.com/JoannaProut"
   - label: Email
     url: "mailto:jtprout@gmail.com"
-
+    
 site: distill::distill_website
-output: postcards::trestles
+output:
+  postcards::trestles
 ---
  
 ## Bio
@@ -41,4 +42,4 @@ B.S. in Psychology and English Writing | August 2000 - May 2004
 
 **University of Maryland School of Medicine** | Research Manager | April 2020 - Present
 
-**University of Maryland School of Medicine** | Research Supervisorr | April 2015 - March 2020
+**University of Maryland School of Medicine** | Research Supervisor | April 2015 - March 2020

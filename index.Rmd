@@ -12,7 +12,8 @@ links:
     url: "mailto:jtprout@gmail.com"
     
 site: distill::distill_website
-output:
+
+output: 
   postcards::trestles
 ---
  

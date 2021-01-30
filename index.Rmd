@@ -10,8 +10,8 @@ links:
     url: "https://github.com/JoannaProut"
   - label: Email
     url: "mailto:jtprout@gmail.com"
-    site: distill::distill_website
-output: 
+site: distill::distill_website
+output:
   postcards::trestles
 ---
  

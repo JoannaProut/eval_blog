@@ -12,7 +12,7 @@ links:
     url: "mailto:jtprout@gmail.com"
 site: distill::distill_website
 output:
-  postcards::jolla
+  postcards::trestles
 ---
  
 ## Bio

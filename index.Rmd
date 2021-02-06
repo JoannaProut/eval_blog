@@ -11,6 +11,8 @@ links:
   - label: Email
     url: "mailto:jtprout@gmail.com"
 site: distill::distill_website
+output:
+  postcards::trestles
 ---
  
 ## Bio

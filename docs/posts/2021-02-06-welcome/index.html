@@ -20,26 +20,27 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +49,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
@@ -115,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["welcome_files/anchor-4.2.2/anchor.min.js","welcome_files/bowser-1.9.3/bowser.min.js","welcome_files/distill-2.2.21/template.v2.js","welcome_files/figure-html5/unnamed-chunk-1-1.png","welcome_files/figure-html5/unnamed-chunk-2-1.png","welcome_files/figure-html5/unnamed-chunk-2-2.png","welcome_files/figure-html5/unnamed-chunk-3-1.png","welcome_files/figure-html5/unnamed-chunk-3-2.png","welcome_files/jquery-1.11.3/jquery.min.js","welcome_files/popper-2.6.0/popper.min.js","welcome_files/tippy-6.2.7/tippy-bundle.umd.min.js","welcome_files/tippy-6.2.7/tippy-light-border.css","welcome_files/tippy-6.2.7/tippy.css","welcome_files/tippy-6.2.7/tippy.umd.min.js","welcome_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["wealthplot.pdf","welcome_files/anchor-4.2.2/anchor.min.js","welcome_files/bowser-1.9.3/bowser.min.js","welcome_files/distill-2.2.21/template.v2.js","welcome_files/figure-html5/med wealth over time by race-1.png","welcome_files/figure-html5/unnamed-chunk-1-1.png","welcome_files/figure-html5/unnamed-chunk-2-1.png","welcome_files/figure-html5/unnamed-chunk-2-2.png","welcome_files/figure-html5/unnamed-chunk-3-1.png","welcome_files/figure-html5/unnamed-chunk-3-2.png","welcome_files/header-attrs-2.6.6/header-attrs.js","welcome_files/jquery-1.11.3/jquery.min.js","welcome_files/popper-2.6.0/popper.min.js","welcome_files/tippy-6.2.7/tippy-bundle.umd.min.js","welcome_files/tippy-6.2.7/tippy-light-border.css","welcome_files/tippy-6.2.7/tippy.css","welcome_files/tippy-6.2.7/tippy.umd.min.js","welcome_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2039,6 +2040,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.6.6/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2072,7 +2074,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
-<a href="../../about.html">About</a>
 <a href="../../blog.html">Blog</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -2096,8 +2097,50 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
+<p>For this week’s Tidy Tuesday challenge we looked at data about wealth and inequality in the United States. I did a simple area plot of the median wealth of Black, Hispanic, and White families from 1989-2016. The disparity is huge! The visualization shows that while the wealth of White families increased and decreased as a function of economic changes; the wealth of Blank and Hispanic families remained low.</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="welcome_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>median_wealth_race</span> <span class='op'>&lt;-</span> <span class='va'>race_wealth</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span> <span class='op'>(</span><span class='va'>type</span> <span class='op'>==</span> <span class='st'>"Median"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span> <span class='op'>(</span><span class='va'>year</span> <span class='op'>&gt;=</span> <span class='fl'>1989</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span> <span class='op'>(</span><span class='va'>race</span> <span class='op'>!=</span> <span class='st'>"Non-White"</span><span class='op'>)</span>
+
+<span class='co'>## Automatically use showtext to render text</span>
+<span class='fu'><a href='https://rdrr.io/pkg/showtext/man/showtext_auto.html'>showtext_auto</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>ggplot</span> <span class='op'>(</span><span class='va'>median_wealth_race</span>, 
+        <span class='fu'>aes</span> <span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, 
+             y <span class='op'>=</span> <span class='va'>wealth_family</span>, 
+             group<span class='op'>=</span><span class='va'>race</span>, 
+             fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+ <span class='fu'>geom_area</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span> <span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Median Wealth of US Families by Race Over Time"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"In Dollars Normalized for 2016"</span>,
+          caption <span class='op'>=</span> <span class='st'>"Data from Urban Institute and US Census | Graphic by @joieprout"</span>,
+          x <span class='op'>=</span> <span class='st'>" "</span>,
+          y <span class='op'>=</span> <span class='st'>" "</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span> <span class='op'>(</span><span class='op'>~</span><span class='va'>race</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span> <span class='op'>(</span>text <span class='op'>=</span> <span class='fu'>element_text</span> <span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"Montserrat"</span>, size <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span>,
+         plot.title <span class='op'>=</span> <span class='fu'>element_text</span> <span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>22</span><span class='op'>)</span>,
+         legend.position <span class='op'>=</span> <span class='st'>"none"</span>,
+         panel.grid <span class='op'>=</span> <span class='fu'>element_blank</span> <span class='op'>(</span><span class='op'>)</span>,
+         axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span> <span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,
+         axis.text.y <span class='op'>=</span> <span class='fu'>element_text</span> <span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,
+         axis.ticks.y <span class='op'>=</span> <span class='fu'>element_blank</span> <span class='op'>(</span><span class='op'>)</span>,
+         axis.ticks.x <span class='op'>=</span> <span class='fu'>element_blank</span> <span class='op'>(</span><span class='op'>)</span>,
+          panel.background <span class='op'>=</span> <span class='fu'>element_rect</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"gray93"</span>, fill <span class='op'>=</span> <span class='st'>"gray93"</span><span class='op'>)</span>,
+          plot.background <span class='op'>=</span> <span class='fu'>element_rect</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"white"</span>, fill <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>,
+          strip.background <span class='op'>=</span> <span class='fu'>element_rect</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"gray80"</span>, fill <span class='op'>=</span> <span class='st'>"gray80"</span><span class='op'>)</span>,    
+          plot.margin <span class='op'>=</span> <span class='fu'>margin</span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='st'>"cm"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>label <span class='op'>=</span> <span class='va'>comma</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_fill_brewer</span><span class='op'>(</span>palette<span class='op'>=</span><span class='st'>"Dark2"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="welcome_files/figure-html5/med%20wealth%20over%20time%20by%20race-1.png" width="768" style="display: block; margin: auto;" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggsave</span> <span class='op'>(</span><span class='st'>"wealthplot.pdf"</span>, width <span class='op'>=</span> <span class='fl'>10</span>, height <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

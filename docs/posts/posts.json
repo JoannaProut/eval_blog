@@ -1,19 +1,19 @@
 [
   {
     "path": "posts/2021-02-06-welcome/",
-    "title": "welcome",
-    "description": "A short description of the post.",
+    "title": "Tidy Tuesday 2021, Week 7: ",
+    "description": "Data on Wealth and Income Over Time | Urban Institute & US Census",
     "author": [
       {
-        "name": "Unknown",
+        "name": "Joanna Prout",
         "url": {}
       }
     ],
-    "date": "2021-02-06",
+    "date": "2021-02-11",
     "categories": [],
-    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2021-02-11T14:37:11-05:00",
+    "contents": "\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "posts/2021-02-06-welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2021-02-12T07:46:20-05:00",
     "input_file": {}
   }
 ]

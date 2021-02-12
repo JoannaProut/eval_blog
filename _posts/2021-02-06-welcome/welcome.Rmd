@@ -1,10 +1,10 @@
 ---
-title: "welcome"
+title: "Tidy Tuesday 2021, Week 7: "
 description: |
-  A short description of the post.
+  Data on Wealth and Income Over Time | Urban Institute & US Census
 author:
-  - name: Unknown
-date: 2021-02-06
+  - name: Joanna Prout
+date: 2021-02-11
 output:
   distill::distill_article:
     self_contained: false
@@ -13,10 +13,53 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+library (tidyverse)
+library (showtext)
+library (patchwork)
+## Loading Google fonts (https://fonts.google.com/)
+font_add_google("Montserrat")
+
+student_debt <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/student_debt.csv')
+
+income_mean <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/income_mean.csv')
+
+race_wealth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/race_wealth.csv')
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 
+```{r}
+median_wealth_race <- race_wealth %>% 
+  filter (type == "Median") %>%
+  filter (year >= 1989) %>%
+  filter (race != "Non-White")
+
+## Automatically use showtext to render text
+showtext_auto()
+
+ggplot (median_wealth_race, 
+        aes (x = year, 
+             y = wealth_family, 
+             group=race, 
+             color=race, 
+             fill = race)) + 
+ geom_area() +
+  labs (title = "Median Wealth of Black, Hispanic, and White US Families",
+          subtitle = "Dollars Normalized for 2016",
+          x = " ",
+          y = " ") +
+  facet_wrap (~race) +
+  theme (text = element_text (family = "Montserrat"),
+         legend.position = "none",
+         panel.grid = element_blank (),
+         axis.text.y = element_blank (),
+         axis.ticks.y = element_blank (),
+         axis.ticks.x = element_blank (),
+          panel.background = element_rect(color = "gray93", fill = "gray93"),
+          plot.background = element_rect(color = "white", fill = "white"),
+          strip.background = element_rect(color = "gray80", fill = "gray80"),    
+          plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"))+
+  scale_fill_brewer(palette="Dark2")
+```
 

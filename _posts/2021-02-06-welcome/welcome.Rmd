@@ -40,7 +40,7 @@ median_wealth_race <- race_wealth %>%
 ## Automatically use showtext to render text
 showtext_auto()
 
-ggplot (median_wealth_race, 
+plot <- ggplot (median_wealth_race, 
         aes (x = year, 
              y = wealth_family, 
              group=race, 
@@ -52,8 +52,8 @@ ggplot (median_wealth_race,
           x = " ",
           y = " ") +
   facet_wrap (~race) +
-  theme (text = element_text (family = "Montserrat", size = 15),
-         plot.title = element_text (face = "bold", size = 22),
+  theme (text = element_text (family = "Montserrat", size = 22),
+         plot.title = element_text (face = "bold", size = 24),
          legend.position = "none",
          panel.grid = element_blank (),
          axis.text.x = element_text (size = 14),
@@ -66,6 +66,8 @@ ggplot (median_wealth_race,
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"))+
   scale_y_continuous(label = comma) +
   scale_fill_brewer(palette="Dark2")
+
+plot
 
 ggsave ("wealthplot.pdf", width = 10, height = 6)
 ```

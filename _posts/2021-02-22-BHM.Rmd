@@ -28,6 +28,7 @@ Here I am loading packages, reading in the data, and changing the color palette 
 library (tidyverse)
 library (showtext)
 library (patchwork)
+library (knitr)
 
 df <- read.csv("https://query.data.world/s/conu5g63p5djt76z4v3x2liephcggn", 
                header=TRUE, stringsAsFactors=FALSE)
@@ -66,12 +67,12 @@ allyears$category <- as.factor (allyears$category)
 
 Making the stacked area chart..
 
-```{r stacked area chart, echo=TRUE}
+```{r stacked area chart, echo=TRUE, fig.width = 8, fig.height = 8}
 plot <- ggplot (allyears, aes (x=year, y=csum, fill = category)) + 
   geom_area () + 
   scale_y_continuous (position = "right")
 
-plot_total <- plot + theme (text = element_text (family = "Lato", size = 12),
+plot_total <- plot + theme (text = element_text (family = "Lato", size = 15),
                                    legend.position = "none",
                    panel.grid = element_blank (),
                    axis.line.x = element_line (),
@@ -88,10 +89,11 @@ plot_total
 
 One of the limitations of the stacked area chart is that it is difficult to compare the patterns between categories.  To help address this, I used facet_wrap to make 8 smaller plots, one for each category.  I kept the colors the same so the viewer can hopefully link the information from the stacked plot to the facetted plot.
 
-```{r facetted, echo = TRUE}
+```{r facetted, echo = TRUE, fig.width = 10, fig.height = 6}
 facets <- ggplot (allyears, aes (x=year, y=csum, fill = category)) + 
     geom_area () +
-    facet_wrap(~category, nrow = 2, strip.position = "bottom") 
+    facet_wrap(~category, nrow = 2, strip.position = "bottom") +
+  theme (text=element_text (family = "Lato", size = 15))
 
 facets
 
@@ -99,14 +101,14 @@ facets
 
 Then I added in the title, colors, and theme elements.
 
-```{r facetted graph plus theme and colors, echo = TRUE}
+```{r facetted graph plus theme and colors, echo = TRUE, fig.width = 10, fig.height = 8}
 facets_final <- facets +  
   labs (x = " ", y = " ", caption = "Data from blackpast.org | for @DiversityinData | graphic @joieprout", title = "\nBlack history is about more than chronicling a series of 'firsts'",
                   subtitle = "\nThe time and place of a breakthrough reflects \nnot only remarkable individual achievement\nbut is itself an indication of the progress \nor lack of progress of Black people\nin realizing the centuries-old intertwined goals\nof freedom, equality, and justice. \n\n~ blackpast.org") +
   scale_fill_manual (values = c("5F706A", "#D5B59B", "#C84F36", "#AE8B6D", "#2C2B2C", "#61A89D", "#E7965F", "#793324")) +
-  theme (text = element_text (family = "Lato", size = 15),
-            plot.title = element_text (family = "Bebas Neue", face = "bold", size = 20),
-                   plot.subtitle = element_text (family = "Lato", face = "italic", size = 12),
+  theme (text = element_text (family = "Lato", size = 20),
+            plot.title = element_text (family = "Bebas Neue", face = "bold", size = 30),
+                   plot.subtitle = element_text (family = "Lato", face = "italic", size = 20),
          legend.position = "none",
          strip.background = element_rect(
            color="#D5B59B", fill="#d5b59b", size=1.5, linetype="solid"
@@ -125,14 +127,14 @@ Finally, I used the patchwork package's inset element function to put the combin
 
 Looking at both the stacked chart and the small multiple charts shows both the collective impact and thst while many achievements have been made in some areas, other areas, like Law, seem to have more limited opportunities and support for achievement by Black people in the United States.  
 
-```{r combining plots using inset function, echo=TRUE}
+```{r combining plots using inset function, echo=TRUE, fig.height = 8, fig.width = 10}
 combo <- facets_final + 
-  inset_element(plot_total, left = 0.5, bottom = 0.5, right = 0.9, top = 0.8, align_to = 'full')
+  inset_element(plot_total, left = 0.5, bottom = 0.6, right = 0.9, top = 0.9, align_to = 'full')
 combo
 
 ```
 
-**Ongoing Problems** If I make a chart that looks okay for the blog then I have to change the font sizing around to make an image file where all the words aren't teeny-tiny.  I am not sure if there is a better way around this? A search is underway.
+An **ongoing problem** I have is that if I make a chart that looks okay for the blog then I have to change the font sizing around to make an image file where all the words aren't teeny-tiny.  I am not sure if there is a better way around this? A search is underway. Here is what I managed for this image. . .
 
 ```{r, echo=FALSE}
 facets_final_img <- facets +  
@@ -170,11 +172,13 @@ combo <- facets_final_img +
   inset_element(plot_total_img, left = 0.5, bottom = 0.5, right = 0.9, top = 0.8, align_to = 'full')
 
 ggsave ("combo.png", height = 4, width = 6, dpi = "retina")
-
-
-
 ```
 
+
+
+```{r, fig.height = 4, fig.width = 6}
+include_graphics ("combo.png")
+```
 
 
 

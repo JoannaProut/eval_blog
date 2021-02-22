@@ -182,5 +182,43 @@ include_graphics ("combo.png")
 
 
 
+```{r save PDF image}
+facets_final_img <- facets +  
+  labs (x = " ", y = " ", caption = "Data from blackpast.org | for @DiversityinData | graphic @joieprout", title = "\nBlack history is about more than chronicling a series of 'firsts'",
+                  subtitle = "\nThe time and place of a breakthrough reflects \nnot only remarkable individual achievement\nbut is itself an indication of the progress \nor lack of progress of Black people\nin realizing the centuries-old intertwined goals\nof freedom, equality, and justice.\n~ blackpast.org") +
+  scale_fill_manual (values = c("5F706A", "#D5B59B", "#C84F36", "#AE8B6D", "#2C2B2C", "#61A89D", "#E7965F", "#793324")) +
+  theme (text = element_text (family = "Lato", size = 18),
+                plot.title = element_text (family = "Bebas Neue", face = "bold", size = 30),
+                plot.subtitle = element_text (family = "Lato", face = "italic", lineheight = 0.8, size = 16),
+         legend.position = "none",
+         strip.background = element_rect(
+           color="#D5B59B", fill="#d5b59b", size=1.5, linetype="solid"
+         ),
+         panel.grid = element_blank (),
+         panel.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
+         plot.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
+         axis.text.y = element_blank (),
+         axis.ticks.y = element_blank (),
+         axis.ticks.x = element_blank ()) 
+
+#Combined wave chart with bigger font
+plot_total_img <- plot + theme (text = element_text (family = "Lato", size = 18),
+                                   legend.position = "none",
+                   panel.grid = element_blank (),
+                   axis.line.x = element_line (),
+                   axis.text.y = element_blank (),
+                   axis.ticks.x = element_blank (),
+                   axis.ticks.y = element_blank (),
+                   panel.background = element_rect(color = "#E3E4E1", fill = "#E3E4E1"), #ice cube
+                   plot.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1")) +
+            scale_fill_manual (values = bfly.col) +
+  labs (x = "Year", y = "Achievements")
+
+combo <- facets_final_img + 
+  inset_element(plot_total_img, left = 0.5, bottom = 0.6, right = 1, top = 0.8, align_to = 'full')
+
+ggsave ("combo.pdf", height = 8, width = 10)
+```
+
 
 

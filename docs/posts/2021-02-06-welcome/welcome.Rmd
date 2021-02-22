@@ -1,0 +1,75 @@
+---
+title: "Tidy Tuesday 2021, Week 7: "
+description: |
+  Data on Wealth and Income Over Time | Urban Institute & US Census
+author:
+  - name: Joanna Prout
+date: 2021-02-11
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+For this week's Tidy Tuesday challenge we looked at data about wealth and inequality in the United States.  I did a simple area plot of the median wealth of Black, Hispanic, and White families from 1989-2016.  The disparity is huge! The visualization shows that while the wealth of White families increased and decreased as a function of economic changes; the wealth of Blank and Hispanic families remained low.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library (tidyverse)
+library (showtext)
+library (scales)
+
+## Loading Google fonts (https://fonts.google.com/)
+font_add_google("Montserrat")
+
+student_debt <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/student_debt.csv')
+
+income_mean <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/income_mean.csv')
+
+race_wealth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/race_wealth.csv')
+```
+
+
+
+```{r med wealth over time by race, fig.height = 6 , fig.width = 8, fig.align = "center", message = FALSE, error = FALSE, echo=TRUE}
+median_wealth_race <- race_wealth %>% 
+  filter (type == "Median") %>%
+  filter (year >= 1989) %>%
+  filter (race != "Non-White")
+
+## Automatically use showtext to render text
+showtext_auto()
+
+plot <- ggplot (median_wealth_race, 
+        aes (x = year, 
+             y = wealth_family, 
+             group=race, 
+             fill = race)) + 
+ geom_area(color = "white") +
+  labs (title = "Median Wealth of US Families by Race Over Time",
+          subtitle = "In Dollars Normalized for 2016",
+          caption = "Data from Urban Institute and US Census | Graphic by @joieprout",
+          x = " ",
+          y = " ") +
+  facet_wrap (~race) +
+  theme (text = element_text (family = "Montserrat", size = 22),
+         plot.title = element_text (face = "bold", size = 24),
+         legend.position = "none",
+         panel.grid = element_blank (),
+         axis.text.x = element_text (size = 14),
+         axis.text.y = element_text (size = 14),
+         axis.ticks.y = element_blank (),
+         axis.ticks.x = element_blank (),
+          panel.background = element_rect(color = "gray93", fill = "gray93"),
+          plot.background = element_rect(color = "white", fill = "white"),
+          strip.background = element_rect(color = "gray80", fill = "gray80"),    
+          plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"))+
+  scale_y_continuous(label = comma) +
+  scale_fill_brewer(palette="Dark2")
+
+plot
+
+ggsave ("wealthplot.pdf", width = 10, height = 6)
+```
+
+

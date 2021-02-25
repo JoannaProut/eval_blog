@@ -1,0 +1,74 @@
+---
+title: "Tidy Tuesday 2021, Week 9"
+description:
+  "A Tidy Tuesday challenge about race and earnings in the US"
+author:
+  - name: Joanna Prout
+  - date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+This week's Tidy Tuesday challenge included data from the Bureau of Labor Statistics (BLS).  The data I selected included a break down of weekly earnings over time from 2010-2020 by race and gender.
+
+Knowing that both of these factors influence how much people are paid, I created two scatterplots (one for men and one for women) of earnings over time with race indicated by point color.
+
+What struck me looking at these graphs is the strata or layers, which seem to indicate there are groups of higher and lower earners within each race.
+
+```{r setup, echo = TRUE}
+library (tidyverse)
+library (lubridate)
+library (showtext)
+library (RColorBrewer)
+
+font_add_google ("Roboto")
+showtext_auto ()
+
+# Get the Data
+earn <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-23/earn.csv')
+
+```
+
+```{r, echo = TRUE}
+d <- earn %>%
+  select (sex, race, ethnic_origin, year, quarter, median_weekly_earn) %>%
+mutate(date = (yq(paste(year, quarter, sep = "-")))) # change year and quarter into date format
+
+```
+
+```{r, echo=TRUE}
+plot <- ggplot (d %>% filter (ethnic_origin != "Hispanic or Latino" & race != "All Races" & sex != "Both Sexes"), aes (x=date, y=median_weekly_earn, color = race)) +
+  geom_point(size = 1.5) +
+  facet_wrap (~sex, ncol = 2)
+
+plot + theme (text = element_text (family = "Roboto",  size = 18),
+         plot.title = element_text (face = "bold", size = 24),
+         legend.position = "bottom",
+         legend.key = element_rect (fill = "#e3e4e1"),
+         legend.background = element_rect (fill = "#e3e4e1"),
+         panel.grid = element_blank (),
+         panel.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
+         plot.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
+         axis.text.y = element_text (size = 15, hjust = 0.5),
+         axis.line.x = element_line (),
+         axis.line.y = element_line (),
+         axis.ticks.y = element_blank (),
+         axis.ticks.x = element_blank (),
+         plot.margin = margin (0.5, 0.5, 0.5, 0.5, "cm")) +
+  labs (title = "Earnings of US Employees by Gender and Race", 
+        y = "Median Weekly Earnings in $", 
+        x = " ",
+        color = "Race",
+        caption = "Data from US BLS | Graphic @joieprout") +
+  scale_color_brewer(palette = "Dark2")
+```
+
+```{r}
+
+ggsave ("earnings.png")
+
+```
+
+
+
+
+

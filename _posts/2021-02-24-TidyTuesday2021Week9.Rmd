@@ -1,18 +1,17 @@
 ---
 title: "Tidy Tuesday 2021, Week 9"
 description:
-  "A Tidy Tuesday challenge about race and earnings in the US"
+  "A Tidy Tuesday challenge about gender, race, age, and earnings in the US"
 author:
   - name: Joanna Prout
   - date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
 
-This week's Tidy Tuesday challenge included data from the Bureau of Labor Statistics (BLS).  The data I selected included a break down of weekly earnings over time from 2010-2020 by race and gender.
+This week's Tidy Tuesday challenge included data from the Bureau of Labor Statistics (BLS).  The data I selected included a break down of weekly earnings over time from 2010-2020 by gender, race, and age.
 
-Knowing that both of these factors influence how much people are paid, I created two scatterplots (one for men and one for women) of earnings over time with race indicated by point color.
+Knowing that all of these factors influence how much people are paid, I created two scatterplots (one for men and one for women) of earnings over time with race indicated by point color and age group indicated by shape.
 
-What struck me looking at these graphs is the strata or layers, which seem to indicate there are groups of higher and lower earners within each race.
 
 ```{r setup, echo = TRUE}
 library (tidyverse)
@@ -41,15 +40,15 @@ plot <- ggplot (d %>% filter (ethnic_origin != "Hispanic or Latino" & race != "A
   geom_point(size = 2) +
   facet_wrap (~sex, ncol = 2)
 
-plot + theme (text = element_text (family = "Roboto",  size = 15),
-         plot.title = element_text (face = "bold", size = 18),
+earnings <- plot + theme (text = element_text (family = "Roboto",  size = 30),
+         plot.title = element_text (face = "bold", size = 32),
          legend.position = "bottom",
          legend.key = element_rect (fill = "#e3e4e1"),
          legend.background = element_rect (fill = "#e3e4e1"),
          panel.grid = element_blank (),
          panel.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
          plot.background = element_rect(color = "#e3e4e1", fill = "#e3e4e1"),
-         axis.text.y = element_text (size = 10, hjust = 0.5),
+         axis.text.y = element_text (size = 20, hjust = 0.5),
          axis.line.x = element_line (),
          axis.line.y = element_line (),
          axis.ticks.y = element_blank (),
@@ -63,9 +62,16 @@ plot + theme (text = element_text (family = "Roboto",  size = 15),
         shape = "Age",
         caption = "Data from US BLS | Graphic @joieprout") +
   scale_color_brewer(palette = "Dark2")
+
+ggsave ("earnings.png", height = 6, width = 10, dpi = "retina")
 ```
 
 
+```{r}
+library (knitr)
+
+include_graphics ("earnings.png")
+```
 
 
 

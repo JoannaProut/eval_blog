@@ -1,10 +1,10 @@
 ---
 title: "Notable Black First Achievements Data Visualization"
-description: |
-  A blog post outlining how I used ggplot to make stacked and facetted area plots looking at cumulative events over time.
+description: 
+  "A blog post outlining how I used ggplot to make stacked and facetted area plots looking at cumulative events over time."
 author:
   - name: Joanna Prout
-date: "`r Sys.Date()`"
+date: 2021-02-22
 output: distill::distill_article
 ---
 
@@ -218,6 +218,7 @@ combo <- facets_final_img +
   inset_element(plot_total_img, left = 0.5, bottom = 0.6, right = 1, top = 0.8, align_to = 'full')
 
 ggsave ("combo.pdf", height = 8, width = 10)
+
 ```
 
 

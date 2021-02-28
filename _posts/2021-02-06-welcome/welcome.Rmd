@@ -1,13 +1,11 @@
 ---
-title: "Tidy Tuesday 2021, Week 7: "
-description: |
-  Data on Wealth and Income Over Time | Urban Institute & US Census
+title: "Tidy Tuesday 2021, Week 7 "
+description: 
+  "Data on Wealth and Income Over Time | Urban Institute & US Census"
 author:
   - name: Joanna Prout
 date: 2021-02-11
-output:
-  distill::distill_article:
-    self_contained: false
+output: distill::distill_article
 ---
 
 For this week's Tidy Tuesday challenge we looked at data about wealth and inequality in the United States.  I did a simple area plot of the median wealth of Black, Hispanic, and White families from 1989-2016.  The disparity is huge! The visualization shows that while the wealth of White families increased and decreased as a function of economic changes; the wealth of Blank and Hispanic families remained low.

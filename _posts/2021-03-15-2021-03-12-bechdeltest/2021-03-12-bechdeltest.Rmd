@@ -1,0 +1,125 @@
+---
+title: "Highest Earning Movies that Pass and Fail the Bechdel Test"
+description: |
+  This week's Tidy Tuesday challenge looks at the highest earning movies from 1970-2013 that pass and fail the Bechdel test.
+author:
+  - name: Joanna Prout
+    url: {}
+date: 2021-03-15
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+This week's Tidy Tuesday challenge was to visualize data about movies from 1970-2013 and whether or not they passed the Bechdel Test.  More information can be found about Tidy Tuesday and this challenge can be found here: [R for Data Science Github Page] (https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-03-09/readme.md)
+
+The Bechdel test was named for cartoonist Alison Bechdel. To pass "the Bechdel test" a movie must have (1) at least two named women, (2) who have a conversation with each other at some point in the movie, (3) the conversation must be about something other than men.  This rule or test can help determine if a movie has three-dimensional characters that are women rather than ignoring women entirely, using them as props, or to spur the development of characters who are men.  See the Bechdel test comic strip here: [Bechdel Rule Comic Strip] [https://www.npr.org/templates/story/story.php?storyId=94202522]
+
+To visualize this data, I first loaded packages including showtext, to use Google fonts, ggrepel, to move labels on data points away from each other, and scales, to change the axis labels from long numbers to units in millions and billions.
+
+```{r setup, include=TRUE, echo=TRUE}
+
+knitr::opts_chunk$set(echo = TRUE)
+library (tidyverse)
+library (showtext)
+library (ggrepel)
+library (scales)
+```
+
+
+Here I am adding Roboto font family from Google fonts. The font family must be installed on the computer you are using.
+
+```{r fonts, echo=TRUE, message=FALSE}
+
+font_add_google ("Roboto")
+showtext_auto ()
+```
+
+Reading in data.
+
+```{r read in data, echo=TRUE, message=FALSE}
+#read in the data manually
+movies <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv')
+```
+
+Looking through the lists of movies, there are definitely those that stand out as big blockbusters that made a lot more money than other movies.  I wondered which high-earning movies did and did not pass the Bechdel test.  I decided to explore more in this area with a reduced data set with only year, movie title, a variable named binary coded as PASS or FAIL (in relation to the Bechdel test), and domestic gross earning adjusted for 2013.
+
+```{r mking smaller dataset, echo=TRUE, message=FALSE, warning=FALSE}
+#select only needed variables for reduced dataset
+sm <- select (movies, year, title, binary, domgross_2013)
+
+```
+
+The domestic gross earnings for 2013 variable was in character format so I needed to switch it to a number so it could act as an axis.  I also made a label where I divided the number by one million and rounded to one digit.
+
+```{r, message = FALSE, warning=FALSE}
+#reformat domgross_2013 
+#changing to numeric
+sm$domgross_2013_num <- as.numeric(sm$domgross_2013)
+
+#make labels variable
+sm2 <- sm %>%
+  mutate (labels = round(domgross_2013_num/1000000, digits =1))
+
+sm2$labels <- as.character (sm2$labels)
+
+```
+
+Then I used slice_max () to select the top 5 highest-earning movies that passed the test and the top 5 highest-earning movies that failed the test and combined them into one dataset.
+
+```{r}
+passes  <- sm2 %>%
+  filter (binary == "PASS")%>%
+   slice_max (domgross_2013_num, n = 5)
+
+fails <- sm2 %>%
+  filter (binary == "FAIL")%>%
+   slice_max (domgross_2013_num, n = 5)
+
+d <- rbind (passes, fails)
+```
+
+
+Making the plot! This week I learned how to use the scales:: label_number_si () function to format movie earnings in millions and billions and the guides () functions to turn off legends for color and size. Using facet_wrap with binary creates two plots, one for the year and earnings of failing movies and one for the year and earnings of passing movies. 
+
+```{r, fig.width=7, fig.height=7}
+p <- ggplot (d, aes (x=year, y=domgross_2013_num, size = domgross_2013_num, label = title, color = binary)) +
+  geom_point (aes (color = binary)) +
+ 
+  geom_text_repel (show.legend = FALSE, color = "black") +
+  scale_size(range = c(6, 12), name="Gross Earnings in $", labels = comma) +
+  scale_y_continuous (labels = scales::label_number_si(), limits = c(500000000, 2500000000)) +
+  guides (color = FALSE, size = FALSE) +
+  facet_wrap (~binary, nrow = 2) +
+  theme (text = element_text (size = 18))
+  
+p
+```
+Finally I added some colors and tried to make the plot more visually appealing.  Next I want to learn ggtext so I can do more with text color.
+
+```{r fig.height = 10, fig.width = 8}
+p2 <-   p + theme (text = element_text (family = "Roboto",  size = 24, color = "black"),
+                      plot.title = element_text ( face = "bold", size = 30, color = "black"),
+                      plot.subtitle = element_text (lineheight = 0.4),
+                      panel.grid = element_blank (),
+                      panel.background = element_rect(color = "black", fill = "white"),
+                      plot.background = element_rect(color = "black", fill = "ivory"),
+                      strip.background = element_rect (fill = "peachpuff", color = "black"),
+                      axis.text.y = element_text (color = "black"),
+                      axis.text.x = element_text (color = "black"),
+                      axis.line.x = element_line (color = "black"),
+                      axis.line.y = element_line (color = "black"),
+                      axis.ticks.y = element_blank (),
+                      axis.ticks.x = element_blank (),
+                      plot.margin = margin (0.5, 0.5, 0.5, 0.5, "cm")) +
+  labs ( x = " ",
+         y = "$ earned",
+         title = "Top Earning Movies 1970-2013 by Bechdel Test Status",
+         subtitle = "Do your favorites pass or fail?",
+         caption = "Data from fivethirtyeight | Graphic @joieprout") +
+    scale_color_manual (values = c("skyblue", "lightcoral"))
+
+p2
+```
+
+

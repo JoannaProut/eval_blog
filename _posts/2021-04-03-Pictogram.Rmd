@@ -1,0 +1,161 @@
+---
+title: "Graduation Rates by High School Type in Baltimore, MD"
+subtitle: "Day 2| Pictogram| 30 Day Chart Challenge of April 2021"
+description: |
+  For day 2 of the 30 Day Chart Challenge, I used waffle () to make a pictogram comparing graduation rates in different types of High Schools in Baltimore.
+author:
+  - name: Joanna Prout 
+  
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+## Pictogram Basics
+
+Day 2 of the **30 Day Chart Challenge** involved making a pictogram!  I love icons and pictograms but I struggle with using fonts in R so I had stuck to using excel, word, canva, etc for anything where I needed pictures.
+
+This challenge was an opportunity to try again to get icons to work in R!
+
+I first looked at this great resource *Building Pictograms* at  https://rud.is/rpubs/building-pictograms.html which guides you through the process of making a waffle chart and pictogram in R using the extrafont package with Font Awesome (FA) and ggplot +  geom_waffle() & geom_pictogram ()
+
+I needed more help with making the extrafont package work, particularly getting Font Awesome (FA) loaded so I could use glyphs, so I also used these instructions from *Making Infographics in R* by ListenData at https://www.listendata.com/2019/06/create-infographics-with-r.html
+
+First thing is to load all the libraries!  I am still unclear of how showtext works here.
+
+```{r loading libraries, include=TRUE, echo = TRUE, message = FALSE}
+#Alternate resource about making pictograms in R, https://rud.is/rpubs/building-pictograms.html 
+#more detail re installing font awesome https://www.listendata.com/2019/06/create-infographics-with-r.html
+
+library(waffle)
+library(extrafont)
+library (showtext)
+library(tidyverse)
+
+```
+
+Loading the fonts in extrafont and indicating that I am using windows?  Not sure if I even need to do this bit.
+
+```{r}
+extrafont::loadfonts(quiet = TRUE, device = "win") #adding device = "win"
+```
+
+Here I am making a tibble to see if R is finding Font Awesome in the list of available fonts. Font Awesome comes in the waffle package in the fonts folder, but you must double click each font file and click "install" to ensure that it is installed in your Windows Font Library (if you are using Windows).
+
+```{r checking FA fonts are there}
+extrafont::fonttable() %>% 
+  as_tibble() %>% 
+  filter(grepl("Awesom", FamilyName)) %>% 
+  select(afmfile, FullName, FamilyName, FontName)
+```
+
+Now, I think we are using the showtext package to add the fonts to "system fonts" plus setting showtext to automatically run for the rest of this R session?
+
+````{r add fafonts to sysfonts}
+
+font_add(family = "FontAwesome5Free-Solid", regular = "C:\\Users\\jprout\\OneDrive - University of Maryland School of Medicine\\Documents\\R\\win-library\\4.0\\waffle\\fonts\\fa-solid-900.ttf")
+
+font_add(family = "FontAwesome5Free-Regular", regular = "C:\\Users\\jprout\\OneDrive - University of Maryland School of Medicine\\Documents\\R\\win-library\\4.0\\waffle\\fonts\\fa-regular-400.ttf")
+
+font_add(family ="FontAwesome5Brands-Regular", regular = "C:\\Users\\jprout\\OneDrive - University of Maryland School of Medicine\\Documents\\R\\win-library\\4.0\\waffle\\fonts\\fa-brands-400.ttf")
+
+showtext_auto()
+```
+
+
+This fa_grep () function lets you search for look for icons related to a key word within the Font Awesome package.  My pictogram will be related to graduation rates so I searched for "graduation" and found that the traditional hat can be called "graduation-cap".
+
+```{r looking for grad hat icon}
+fa_grep("graduation")
+```
+
+In addition to using the ggplot + geom_waffle() or geom_pictogram() method, the Listen Data tutorial uses the waffle () function.  
+
+Waffle () is described in detail here: https://www.rdocumentation.org/packages/waffle/versions/0.7.0/topics/waffle
+
+## Data Viz & Advocating for Equity in Education and Healthcare
+
+One of my interests is using data viz to increase equity, especially in education and behavioral health.  
+
+A comparison that caught my attention recently was graduation rates by High School type in Baltimore, MD.  Baltimore adopted "school choice" to give students from lower-income neighborhoods better educational opportunities. While school choice influences student education as early as pre-kindergarten, a defining step occurs when 8th graders apply to the High schools they will enter in 9th grade.   There are three major categories of public High Schools:
+
+"Traditional Selective" High Schools require students to apply and select students based on criteria such as grade point average, standardized test scores, and attendance.  
+
+"Traditional Non-selective" High Schools do not use criteria such as grades or test scores to screen students.  Students do not have to apply to attend them but are automatically placed in them based on their address. 
+
+"Charter" High Schools are schools of choice that can determine their own criteria for student entrance.  Students have to apply to attend them.
+
+Graduation rates for these different types of High Schools must be monitored to ensure that outcomes are equitable.  I decided to use a pictogram to display graduation rates (or number of students out of 10 that are likely to graduate) based on recent data presented to the Maryland State Department of Education (MSDE) school board.
+
+
+## I finally make a pictogram...
+
+I decided to use the waffle () function and have the number of colored hats would represent the number of students out of 10 that were expected to graduate while gray hats would represent students NOT expected to graduate.
+
+```{r pictogram for grad rates for selective high schools}
+selective <- waffle(
+  c(`Graduation` = 9, `No Graduation` = 1), 
+  rows = 1, colors = c("red", "gray"),
+  use_glyph = "graduation-cap", 
+  glyph_size = 12, 
+  title = 'Traditional Selective',
+   legend_pos="none"
+) + theme(plot.title = element_text(hjust = 0.5))
+
+selective
+```
+
+Making one for graduation rates in **Charter** High Schools in Baltimore using a different color.
+
+```{r pictogram for grad rates for charter high schools}
+charter <- waffle(
+ c(`Graduation` = 8, `No Graduation` = 2), 
+  rows = 1, colors = c("gold", "gray"),
+  use_glyph = "graduation-cap", 
+  glyph_size = 12, 
+  title = 'Charter',
+  legend_pos="none"
+) + theme(plot.title = element_text(hjust = 0.5))
+
+charter
+```
+
+Making one for **Non-selective** High Schools using a third color.
+
+```{r pictogram for grad rates for non-selective high schools}
+nonselective <- waffle(
+  c(`Graduation` = 6, `No Graduation` = 4), 
+  rows = 1, colors = c("black", "gray"),
+  use_glyph = "graduation-cap", 
+  glyph_size = 12, 
+  title = 'Traditional Non-selective',
+  legend_pos="none"
+) + theme(plot.title = element_text(hjust = 0.5))
+
+nonselective
+```
+
+
+Using patchwork to combine the three into one image so the viewer can make the comparison!
+
+```{r using patchwork to put them together}
+library (patchwork)
+
+patchwork <- selective / 
+  charter /
+  nonselective + plot_annotation(
+  title = 'Graduation Rates by Public High School Type in Baltimore',
+  theme = theme (plot.title = element_text (face = "bold", size = 18)),
+  subtitle = 'Is School Choice decreasing inequity?',
+  caption = 'Data from MSDE'
+)
+
+
+patchwork 
+```
+
+
+
+
+
+
+
